@@ -1,0 +1,3 @@
+expat wasn't built from source, instead the following was used:
+
+expat-2.1.0 (static multi-threaded build)
