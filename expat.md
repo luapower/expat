@@ -7,7 +7,7 @@ v1.0 | expat 2.1.0 | LuaJIT 2
 
 ## `local expat = require'expat'`
 
-A ffi binding for the [Expat XML parser][expat].
+A ffi binding for the [Expat XML parser][expat lib].
 
 ## `expat.parse(source, callbacks)`
 
@@ -55,4 +55,4 @@ Nodes look like this:
 
 Iterate a node's children that have a specific tag.
 
-[expat]: http://expat.sourceforge.net/
+[expat lib]:   http://expat.sourceforge.net/
