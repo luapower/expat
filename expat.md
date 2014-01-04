@@ -1,6 +1,7 @@
 ---
-project: expat
-tagline: expat ffi binding
+project:     expat
+tagline:     expat ffi binding
+category:    Internet Formats
 ---
 
 v1.0 | expat 2.1.0 | LuaJIT 2
