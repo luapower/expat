@@ -4,8 +4,6 @@ tagline:     expat ffi binding
 category:    Internet Formats
 ---
 
-v1.0 | expat 2.1.0 | LuaJIT 2
-
 ## `local expat = require'expat'`
 
 A ffi binding for the [Expat XML parser][expat lib].
