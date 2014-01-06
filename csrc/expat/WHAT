@@ -1,3 +1,4 @@
-expat wasn't built from source, instead the following was used:
+expat expat-2.1.0 from http://expat.sourceforge.net/ (MIT License)
 
-expat-2.1.0 (static multi-threaded build)
+wasn't built from source, instead the static multi-threaded build was used.
+
