@@ -1,7 +1,6 @@
 ---
 project:     expat
 tagline:     expat ffi binding
-category:    Internet Formats
 ---
 
 ## `local expat = require'expat'`
