@@ -1,6 +1,6 @@
 ---
-project:     expat
-tagline:     expat ffi binding
+project: expat
+tagline: XML parser
 ---
 
 ## `local expat = require'expat'`
