@@ -1,1 +1,1 @@
-gcc -O2 -s -static-libgcc *.c -shared -o ../../bin/linux32/libexpat.so -I. -DHAVE_EXPAT_CONFIG_H
+gcc -O2 -s -static-libgcc src/*.c -shared -o ../../bin/linux32/libexpat.so -Isrc -DHAVE_EXPAT_CONFIG_H
