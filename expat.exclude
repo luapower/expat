@@ -1,13 +1,27 @@
 *
 !/bin/
-!/csrc/
 !/bin/mingw32/
+!/bin/mingw64/
 !/bin/linux32/
+!/bin/linux64/
+!/bin/osx32/
+!/bin/osx64/
+!/bin/mingw32/clib/
+!/bin/mingw64/clib/
+!/bin/linux32/clib/
+!/bin/linux64/clib/
+!/bin/osx32/clib/
+!/bin/osx64/clib/
+!/csrc/
 !/media/
 
 !/expat*
 !/bin/mingw32/expat*
+!/bin/mingw64/expat*
 !/bin/linux32/libexpat*
+!/bin/linux64/libexpat*
+!/bin/osx32/libexpat*
+!/bin/osx64/libexpat*
 !/csrc/expat/
 !/csrc/expat/**
 
