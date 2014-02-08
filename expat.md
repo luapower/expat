@@ -47,7 +47,7 @@ Parse a XML to a tree of nodes. known_tags filters the output so that only the t
 
 Nodes look like this:
 
-	node = {tag=, attrs={<k>=v}, children={node1,...}, tags={<tag> = node}, cdata=}
+	node = {tag=, attrs={<k>=v}, children={node1,...}, tags={<tag> = node}, cdata=, parent=}
 
 ## `expat.children(node, tag) -> iter() -> node`
 
