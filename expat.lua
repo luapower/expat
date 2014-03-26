@@ -167,7 +167,7 @@ local function parse(t, callbacks)
 			return
 		end
 	end
-	error('unspecified data source: '..table.concat(glue.keys(parse), ', ')..' expected')
+	error('unspecified data source: '..table.concat(glue.keys(parser), ', ')..' expected')
 end
 
 local function maketree_callbacks(known_tags)
