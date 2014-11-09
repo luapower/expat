@@ -1,1 +1,2 @@
-gcc -arch i386 -O2 src/*.c -shared -install_name @loader_path/libexpat.dylib -o ../../bin/osx32/libexpat.dylib -Isrc -DHAVE_EXPAT_CONFIG_H
+P=osx32 C="-arch i386" L="-arch i386 -install_name @loader_path/libexpat.dylib" \
+	D=libexpat.dylib A=libexpat.a ./build.sh
