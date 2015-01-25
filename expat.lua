@@ -34,12 +34,17 @@ local cbsetters = {
 	'skipped',        C.XML_SetSkippedEntityHandler,          ffi.typeof'XML_SkippedEntityHandler',
 }
 
+local NULL = ffi.new'void*'
+local function str(ptr, size)
+	return ptr ~= NULL and ffi.string(ptr, size) or nil
+end
+
 local function decode_attrs(attrs) --char** {k1,v1,...,NULL}
 	local t = {}
 	local i = 0
 	while true do
 		if attrs[i] == nil or attrs[i+1] == nil then break end
-		t[ffi.string(attrs[i])] = ffi.string(attrs[i+1])
+		t[str(attrs[i])] = str(attrs[i+1])
 		i = i + 2
 	end
 	return t
@@ -47,44 +52,44 @@ end
 
 local pass_nothing = function(_) end
 local cbdecoders = {
-	element = function(_, name, model) return ffi.string(name), model end,
+	element = function(_, name, model) return str(name), model end,
 	attr_list = function(_, elem, name, type, dflt, is_required)
-		return ffi.string(elem), ffi.string(name), ffi.string(type), ffi.string(dflt), is_required ~= 0
+		return str(elem), str(name), str(type), str(dflt), is_required ~= 0
 	end,
 	xml = function(_, version, encoding, standalone)
-		return ffi.string(version), ffi.string(encoding), standalone ~= 0
+		return str(version), str(encoding), standalone ~= 0
 	end,
 	entity = function(_, name, is_param_entity, val, val_len, base, sysid, pubid, notation)
-		return ffi.string(name), is_param_entity ~= 0, ffi.string(val, val_len), ffi.string(base),
-					ffi.string(sysid), ffi.string(pubid), ffi.string(notation)
+		return str(name), is_param_entity ~= 0, str(val, val_len), str(base),
+					str(sysid), str(pubid), str(notation)
 	end,
-	start_tag = function(_, name, attrs) return ffi.string(name), decode_attrs(attrs) end,
-	end_tag = function(_, name) return ffi.string(name) end,
-	cdata = function(_, s, len) return ffi.string(s, len) end,
-	pi = function(_, target, data) return ffi.string(target), ffi.string(data) end,
-	comment = function(_, s) return ffi.string(s) end,
+	start_tag = function(_, name, attrs) return str(name), decode_attrs(attrs) end,
+	end_tag = function(_, name) return str(name) end,
+	cdata = function(_, s, len) return str(s, len) end,
+	pi = function(_, target, data) return str(target), str(data) end,
+	comment = function(_, s) return str(s) end,
 	start_cdata = pass_nothing,
 	end_cdata = pass_nothing,
-	default = function(_, s, len) return ffi.string(s, len) end,
-	default_expand = function(_, s, len) return ffi.string(s, len) end,
+	default = function(_, s, len) return str(s, len) end,
+	default_expand = function(_, s, len) return str(s, len) end,
 	start_doctype = function(_, name, sysid, pubid, has_internal_subset)
-		return ffi.string(name), ffi.string(sysid), ffi.string(pubid), has_internal_subset ~= 0
+		return str(name), str(sysid), str(pubid), has_internal_subset ~= 0
 	end,
 	end_doctype = pass_nothing,
 	unparsed = function(name, base, sysid, pubid, notation)
-		return ffi.string(name), ffi.string(base), ffi.string(sysid), ffi.string(pubid), ffi.string(notation)
+		return str(name), str(base), str(sysid), str(pubid), str(notation)
 	end,
 	notation = function(_, name, base, sysid, pubid)
-		return ffi.string(name), ffi.string(base), ffi.string(sysid), ffi.string(pubid)
+		return str(name), str(base), str(sysid), str(pubid)
 	end,
-	start_namespace = function(_, prefix, uri) return ffi.string(prefix), ffi.string(uri) end,
-	end_namespace = function(_, prefix) return ffi.string(prefix) end,
+	start_namespace = function(_, prefix, uri) return str(prefix), str(uri) end,
+	end_namespace = function(_, prefix) return str(prefix) end,
 	not_standalone = pass_nothing,
 	ref = function(parser, context, base, sysid, pubid)
-		return parser, ffi.string(context), ffi.string(base), ffi.string(sysid), ffi.string(pubid)
+		return parser, str(context), str(base), str(sysid), str(pubid)
 	end,
-	skipped = function(_, name, is_parameter_entity) return ffi.string(name), is_parameter_entity ~= 0 end,
-	unknown = function(_, name, info) return ffi.string(name), info end,
+	skipped = function(_, name, is_parameter_entity) return str(name), is_parameter_entity ~= 0 end,
+	unknown = function(_, name, info) return str(name), info end,
 }
 
 local parser = {}
@@ -125,7 +130,7 @@ function parser.read(read, callbacks, options)
 				error(string.format('XML parser error at line %d, col %d: "%s"',
 						tonumber(C.XML_GetCurrentLineNumber(parser)),
 						tonumber(C.XML_GetCurrentColumnNumber(parser)),
-						ffi.string(C.XML_ErrorString(C.XML_GetErrorCode(parser)))))
+						str(C.XML_ErrorString(C.XML_GetErrorCode(parser)))))
 			end
 		until not more
 	end)
