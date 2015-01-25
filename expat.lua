@@ -89,7 +89,7 @@ local cbdecoders = {
 
 local parser = {}
 
-function parser.read(read, callbacks)
+function parser.read(read, callbacks, options)
 	local cbt = {}
 	local function cb(cbtype, callback, decode)
 		local cb = ffi.cast(cbtype, function(...) return callback(decode(...)) end)
@@ -104,7 +104,8 @@ function parser.read(read, callbacks)
 	glue.fcall(function(finally)
 		finally(free_callbacks)
 
-		local parser = C.XML_ParserCreate(nil)
+		local parser = options.namespacesep and C.XML_ParserCreateNS(nil, options.namespacesep:byte())
+				or C.XML_ParserCreate(nil)
 		finally(function() C.XML_ParserFree(parser) end)
 
 		for i=1,#cbsetters,3 do
@@ -122,15 +123,15 @@ function parser.read(read, callbacks)
 			local data, size, more = read()
 			if C.XML_Parse(parser, data, size, more and 0 or 1) == 0 then
 				error(string.format('XML parser error at line %d, col %d: "%s"',
-						C.XML_GetCurrentLineNumber(parser),
-						C.XML_GetCurrentColumnNumber(parser),
+						tonumber(C.XML_GetCurrentLineNumber(parser)),
+						tonumber(C.XML_GetCurrentColumnNumber(parser)),
 						ffi.string(C.XML_ErrorString(C.XML_GetErrorCode(parser)))))
 			end
 		until not more
 	end)
 end
 
-function parser.path(file, callbacks)
+function parser.path(file, callbacks, options)
 	glue.fcall(function(finally)
 		local f = assert(io.open(file, 'rb'))
 		finally(function() f:close() end)
@@ -142,22 +143,22 @@ function parser.path(file, callbacks)
 				return nil, 0
 			end
 		end
-		parser.read(read, callbacks)
+		parser.read(read, callbacks, options)
 	end)
 end
 
-function parser.string(s, callbacks)
+function parser.string(s, callbacks, options)
 	local function read()
 		return s, #s
 	end
-	parser.read(read, callbacks)
+	parser.read(read, callbacks, options)
 end
 
 function parser.cdata(cdata, callbacks, options)
 	local function read()
 		return cdata, options.size
 	end
-	parser.read(read, callbacks)
+	parser.read(read, callbacks, options)
 end
 
 local function parse(t, callbacks)
