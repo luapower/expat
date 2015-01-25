@@ -117,12 +117,18 @@ function parser.read(read, callbacks, options)
 			local k, setter, cbtype = cbsetters[i], cbsetters[i+1], cbsetters[i+2]
 			if callbacks[k] then
 				setter(parser, cb(cbtype, callbacks[k], cbdecoders[k]))
+			elseif k == 'entity' then
+				setter(parser, cb(cbtype,
+						function(parser) C.XML_StopParser(parser, false) end,
+						function(parser) return parser end))
 			end
 		end
 		if callbacks.unknown then
 			C.XML_SetUnknownEncodingHandler(parser,
 				cb('XML_UnknownEncodingHandler', callbacks.unknown, cbdecoders.unknown), nil)
 		end
+
+		C.XML_SetUserData(parser, parser)
 
 		repeat
 			local data, size, more = read()
