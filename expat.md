@@ -11,8 +11,10 @@ A ffi binding for the [Expat XML parser][expat lib].
 
 Parse a XML from a string, cdata, file, or reader function, calling a callback for each piece of the XML parsed.
 
+The optional `namespacesep` field is a single-character string. If present, it causes XML namespaces to be resolved during parsing. Namespace URLs are then concatenated to tag names using the specified character.
+
 ~~~{.lua}
-source = {path = S} | {string = S} | {cdata = CDATA, size = N} | {read = read_function}
+source = {path = S} | {string = S} | {cdata = CDATA, size = N} | {read = read_function} & {[namespacesep=S]}
 
 callbacks = {
   element         = function(name, model) end,
