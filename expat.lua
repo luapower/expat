@@ -122,8 +122,8 @@ function parser.read(read, callbacks)
 			local data, size, more = read()
 			if C.XML_Parse(parser, data, size, more and 0 or 1) == 0 then
 				error(string.format('XML parser error at line %d, col %d: "%s"',
-						C.XML_GetCurrentLineNumber(parser),
-						C.XML_GetCurrentColumnNumber(parser),
+						tonumber(C.XML_GetCurrentLineNumber(parser)),
+						tonumber(C.XML_GetCurrentColumnNumber(parser)),
 						ffi.string(C.XML_ErrorString(C.XML_GetErrorCode(parser)))))
 			end
 		until not more
