@@ -43,8 +43,9 @@ local function decode_attrs(attrs) --char** {k1,v1,...,NULL}
 	local t = {}
 	local i = 0
 	while true do
-		if attrs[i] == nil or attrs[i+1] == nil then break end
-		t[str(attrs[i])] = str(attrs[i+1])
+		local k, v = str(attrs[i]), str(attrs[i+1])
+		if not k or not v then break end
+		t[k] = v
 		i = i + 2
 	end
 	return t
