@@ -110,8 +110,8 @@ function parser.read(read, callbacks, options)
 	glue.fcall(function(finally)
 		finally(free_callbacks)
 
-		local parser = options.namespacesep and C.XML_ParserCreateNS(nil, options.namespacesep:byte())
-				or C.XML_ParserCreate(nil)
+		local parser = options.namespacesep and C.XML_ParserCreateNS(options.encoding, options.namespacesep:byte())
+				or C.XML_ParserCreate(options.encoding)
 		finally(function() C.XML_ParserFree(parser) end)
 
 		for i=1,#cbsetters,3 do
