@@ -7,7 +7,9 @@ tagline: XML parser
 
 A ffi binding for the [Expat XML parser][expat lib].
 
-## `expat.parse(source, callbacks)`
+## API
+
+### `expat.parse(source, callbacks)`
 
 Parse a XML from a string, cdata, file, or reader function, calling a callback for each piece of the XML parsed.
 
@@ -43,7 +45,7 @@ callbacks = {
 }
 ~~~
 
-## `expat.treeparse(source, [known_tags]) -> root_node`
+### `expat.treeparse(source, [known_tags]) -> root_node`
 
 Parse a XML to a tree of nodes. known_tags filters the output so that only the tags that known_tags indexes are returned.
 
@@ -51,7 +53,7 @@ Nodes look like this:
 
 	node = {tag=, attrs={<k>=v}, children={node1,...}, tags={<tag> = node}, cdata=, parent=}
 
-## `expat.children(node, tag) -> iter() -> node`
+### `expat.children(node, tag) -> iter() -> node`
 
 Iterate a node's children that have a specific tag.
 
