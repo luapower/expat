@@ -1,5 +1,4 @@
 ---
-project: expat
 tagline: XML parser
 ---
 
